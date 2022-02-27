@@ -6,28 +6,30 @@ const request = require('request');
 
 let breed = process.argv.slice(2);
 
-const fetchBreedDescription = function (breed) {
-  request (`https://api.thecatapi.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
+const fetchBreedDescription = function(breed) {
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
     if (error) {
-   console.log("There was an error in the request: ", error)
- }
-  // turning the response into an object from a string
-  const data = JSON.parse(body);
+      console.log("There was an error in the request: ", error);
+    }
+    if (response.statusCode !== 200) {
+      const msg = `Status Code ${response.statusCode} when fetching IP. Response ${body}`;
+      console.log(msg);
+      return;
+    }
 
-  if (data[0] === undefined) {
-    console.log("requested breed not found")
-  } else {
-    console.log(data[0].description);
-  }
-  
-}
-  )
+    // turning the response into an object from a string
+    const data = JSON.parse(body);
+
+    if (data[0] === undefined) {
+      console.log("requested breed not found");
+    } else {
+      console.log(data[0].description);
+    }
+    
+  });
 
 };
 
 fetchBreedDescription(breed);
 
 module.exports = { fetchBreedDescription };
-
-
-  //Allow the user to specify the breed name using command-line arguments.
