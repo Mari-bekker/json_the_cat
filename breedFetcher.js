@@ -6,7 +6,7 @@ const request = require('request');
 
 let breed = process.argv.slice(2);
 
-const catRequester = function (breed) {
+const fetchBreedDescription = function (breed) {
   request (`https://api.thecatapi.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
     if (error) {
    console.log("There was an error in the request: ", error)
@@ -25,7 +25,9 @@ const catRequester = function (breed) {
 
 };
 
-catRequester(breed);
+fetchBreedDescription(breed);
+
+module.exports = { fetchBreedDescription };
 
 
   //Allow the user to specify the breed name using command-line arguments.
