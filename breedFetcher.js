@@ -12,8 +12,17 @@ const fetchBreedDescription = function(breed, callback) {
       return;
     }
 
+
+
     // turning the response into an object from a string
     const data = JSON.parse(body);
+
+    if (data[0] === undefined) {
+      const invalidbreed = "user provided invalid breed";
+      callback(Error(invalidbreed), null);
+      return;
+    }
+
     callback(null, data[0].description);
     
   });
